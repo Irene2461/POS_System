@@ -4,6 +4,7 @@ export default class GioHang extends Component {
   renderGioHang = () => {
     // Nhận props gioHang từ component cha (BTDanhSáchanPham) this.props.gioHang
     let { gioHang } = this.props;
+
     return gioHang.map((sanpham, index) => {
         return <div className="row py-2">
                     <div className="col-2">
@@ -14,10 +15,10 @@ export default class GioHang extends Component {
                         <div className="row">
                             <div className="col-6">
                                 <button className="btn btn-danger mr-2" onClick={()=>{
-                                this.props.tangGiamSoLuong(sanpham.maSP,1)
+                                  this.props.tangGiamSoLuong(sanpham.maSP,1)
                                 }}>+</button>{sanpham.soLuong}
                                 <button className="btn btn-danger ml-2" onClick={()=>{
-                                    this.props.tangGiamSoLuong(sanpham.maSP,-1)
+                                  this.props.tangGiamSoLuong(sanpham.maSP,-1)
                                 }}>-</button>
                             </div>
                             <div className="col-6">
@@ -67,6 +68,20 @@ export default class GioHang extends Component {
           tongSL += spGH.soLuong;
       }
       return tongSL;
+  }
+
+  tangGiamSoLuong = (maSP, soLuong, gioHang) =>{
+    let gioHangCapNhat = gioHang;
+    // Tìm sản phẩm bấm nút + hoặc - dựa vào mã sản phẩm
+    let index = gioHangCapNhat.findIndex(sp => sp.maSP === maSP);
+    if (index !== -1){
+      if ((gioHangCapNhat[index].soLuong > 1 && soLuong < 0) || soLuong > 0){
+        gioHangCapNhat[index].soLuong += soLuong;
+      }else{
+        alert('Số lượng tối thiểu phải là 1');
+      }
+    }
+    gioHang = gioHangCapNhat;
   }
 
 

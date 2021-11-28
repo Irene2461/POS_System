@@ -2,73 +2,73 @@ import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
 import { Table, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getApiFilmAction, timKiemPhimAction, xoaPhimAction } from '../../../action/FilmAction';
+import { getApiFoodAction, getApiFoodTypeAction, xoaFoodAction } from '../../../action/FoodAction';
 import ModalAdminPage from '../../../component/Modal/ModalAdminPage';
 
-export default function QuanLyPhim(props) {
+export default function QuanLyFood(props) {
 
-    // const {arrFilm} = useSelector(state=>state.FilmReducer);
-    const arrFilm = [
+    const {arrFood1} = useSelector(state=>state.FoodReducer);
+    const arrFood = [
       {
-        maPhim: 1,
-        tenPhim: "Blueberry cupcake",
+        maSP: 1,
+        tenSP: "Blueberry cupcake",
         hinhAnh: "https://picsum.photos/50/50",
-        moTa: "Delicious"
+        moTa: "Delicious",
       },
       {
-        maPhim: 2,
-        tenPhim: "Blackberry cupcake",
+        maSP: 2,
+        tenSP: "Blackberry cupcake",
         hinhAnh: "https://picsum.photos/50/50",
         moTa: "Very delicious"
       },
       {
-        maPhim: 3,
-        tenPhim: "Coca cola",
+        maSP: 3,
+        tenSP: "Coca cola",
         hinhAnh: "https://picsum.photos/50/50",
         moTa: "Super delicious"
       },
     ]
     const dispatch = useDispatch();
     useEffect(()=> {
-        const action = getApiFilmAction('GP02');
+        const action = getApiFoodTypeAction('cupcake');
         dispatch(action)
     },[])
 
     const columns = [
         {
           title: 'Food code',
-          dataIndex: 'maPhim',
-          key: 'maPhim',
-          render: (text,film) => <span>{film.maPhim}</span>,
+          dataIndex: 'maSP',
+          key: 'maSP',
+          render: (text,sp) => <span>{sp.maSP}</span>,
         },
         {
           title: 'Food name',
           dataIndex: 'tenPhim',
           key: 'tenPhim',
-          render: (text,film) => <span>{film.tenPhim}</span>
+          render: (text,sp) => <span>{sp.tenSP}</span>
         },
         {
           title: 'Image',
           dataIndex: 'hinhAnh',
           key: 'hinhAnh',
-          render: (text,film) => <img src={film.hinhAnh} alt="movie" width={50} height={50} />
+          render: (text,sp) => <img src={sp.hinhAnh} alt="food" width={50} height={50} />
         },
         {
             title: 'Description',
             dataIndex: 'moTa',
             key: 'moTa',
-            render: (text,film) => <section>{film.moTa?.length > 50 ? film.moTa.substr(0,50) + '...' : film.moTa}</section>
+            render: (text,sp) => <section>{sp.moTa?.length > 50 ? sp.moTa.substr(0,50) + '...' : sp.moTa}</section>
         },
         {
           title: 'Action',
           key: 'action',
-          render: (text,film)=>(
+          render: (text,sp)=>(
             <Space size="middle">
                 {/* <NavLink className="btn btn-adminpage btn-primary" to={`/admin/taolichchieu/${film.maPhim}`}>Tạo lịch chiếu</NavLink> */}
-                <NavLink className="btn btn-adminpage btn-primary" to={`/admin/updatefilm/${film.maPhim}`}>Update</NavLink>
+                <NavLink className="btn btn-adminpage btn-primary" to={`/admin/updatefood/${sp.maSP}`}>Update</NavLink>
                 <button className="btn btn-adminpage btn-danger" onClick={()=>{
                   // dispatch mã phim lên store
-                  dispatch(xoaPhimAction(film.maPhim));
+                  dispatch(xoaFoodAction(sp.maSP));
                 }} >Delete</button>
 
             </Space>
@@ -76,25 +76,25 @@ export default function QuanLyPhim(props) {
         }     
     ];
       
-    const data = arrFilm;
+    const data = arrFood1;
     // tìm kiếm phim
-    const timKiemPhim = (searchKey) => {
-      if (searchKey.trim() !== ''){
-        dispatch(timKiemPhimAction(searchKey));
-      }else{
-        dispatch(getApiFilmAction('GP01'));
-      }
-  } 
+    // const timKiemPhim = (searchKey) => {
+    //   if (searchKey.trim() !== ''){
+    //     dispatch(timKiemPhimAction(searchKey));
+    //   }else{
+    //     dispatch(getApiFilmAction('GP01'));
+    //   }
+    // } 
 
     return (
         <div className="container">
             <NavLink className="mb-4 btn btn-adminpage btn-primary" to="/admin/addfilm">Add food</NavLink>
             <div className="row mb-4">
               <div className="col-6">
-                <input type="search" id="search-film" className="form-control" placeholder="Enter food name ..." onChange={()=>{
+                {/* <input type="search" id="search-film" className="form-control" placeholder="Enter food name ..." onChange={()=>{
                   let searchKey = document.getElementById('search-film').value;
                   timKiemPhim(searchKey);
-                }}/>
+                }}/> */}
               </div>
             </div>
             <Table columns={columns} dataSource={data} />

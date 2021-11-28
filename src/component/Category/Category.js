@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from 'react-router-dom';
 import { ScrollView } from "@cantonjs/react-scroll-view";
 import SanPham from './SanPham';
@@ -6,6 +8,43 @@ import GioHang from './GioHang';
 import './styleCategory.css';
 
 export default class Category extends Component {
+   
+    componentDidMount(){
+      axios.get(`http://127.0.0.1:8000/api/Item?type=donut`)
+      .then(
+        (response) => {
+          this.setState({
+            data1: response.data
+          });
+        }
+      )
+      .catch(error => {
+        console.log(error)
+      })
+      axios.get(`http://127.0.0.1:8000/api/Item?type=cupcake`)
+      .then(
+        (response) => {
+          this.setState({
+            data2: response.data
+          });
+        }
+      )
+      .catch(error => {
+        console.log(error)
+      })
+      axios.get(`http://127.0.0.1:8000/api/Item?type=drink`)
+      .then(
+        (response) => {
+          this.setState({
+            data3: response.data
+          });
+        }
+      )
+      .catch(error => {
+        console.log(error)
+      })
+    }
+
     dataProduct1 = [
       {
         maSP: 1,
@@ -134,21 +173,10 @@ export default class Category extends Component {
     ];
     
     dataproduct = [
-      {
-        maSP: 200,
-        tenSP: "Aquafinaa",
-        giaBan: 11.00,
-        hinhAnh: "./img/aquafina.jpg",
-        loai: 1
-      },
-      {
-        maSP: 201,
-        tenSP: "Aquafinao",
-        giaBan: 31.00,
-        hinhAnh: "./img/aquafina.jpg",
-        loai: 2
-      }
+      
     ]
+
+    
 
     state = {
       sanPhamChiTiet: {
@@ -161,7 +189,10 @@ export default class Category extends Component {
       gioHang:[
         // {maSP: '1', tenSP: 'Iphone', giaBan: 1000, soLuong: 2, hinhAnh: 'https://picsum.photos/201'},
         // {maSP: '2', tenSP: 'Iphone2', giaBan: 2000, soLuong: 2, hinhAnh: 'https://picsum.photos/200'},
-      ]
+      ],
+      data1: [],
+      data2: [],
+      data3: []
     };
   
     // Hàm setState sẽ được định nghĩa tại component chứa state đó 
@@ -261,8 +292,18 @@ export default class Category extends Component {
       });
     };
 
+    renderSP = () => {
+      return this.state.data1.map((sanpham,index)=>{
+        return (
+          <div className="col-4" key={index}>
+            <SanPham sanpham = {sanpham} xemChiTiet = {this.xemChiTiet} themGioHang = {this.setStateThemGioHang} />
+          </div>
+        )
+      })
+    }
+
     renderCupcake = () => {
-      return this.dataProduct2.map((sanpham,index) => {
+      return this.state.data2.map((sanpham,index) => {
         return (
           <div className="col-4" key={index}>
             <SanPham sanpham = {sanpham} xemChiTiet = {this.xemChiTiet} themGioHang = {this.setStateThemGioHang} />
@@ -272,7 +313,7 @@ export default class Category extends Component {
     }
 
     renderDrink = () => {
-      return this.dataProduct3.map((sanpham,index) => {
+      return this.state.data3.map((sanpham,index) => {
         return (
           <div className="col-4" key={index}>
             <SanPham sanpham = {sanpham} xemChiTiet = {this.xemChiTiet} themGioHang = {this.setStateThemGioHang} />
@@ -306,7 +347,7 @@ export default class Category extends Component {
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                             <div class="container">
                                 <div class="row">
-                                    {this.renderSanPham()}
+                                    {this.renderSP()}
                                 </div>
                             </div>
                         </div>
@@ -349,12 +390,15 @@ export default class Category extends Component {
         </div>
       );
     }
-  }
+}
+
 
 // export default function Category(props){
 //     let handleEndReached = () => {
 //         console.log("load more");
 //     };
+
+    
 
 //     let dataProduct = [
 //         {
@@ -369,7 +413,6 @@ export default class Category extends Component {
 //             hinhAnh: "./img/blackberry-cupcake.jpeg",
 //             giaBan: 12.99
 //         },
-
 //     ];
 
 //     let state = {
@@ -452,6 +495,7 @@ export default class Category extends Component {
 //         })
 //     }
     
+
 
 //    return (
 //     <div className="row container-fluid">
@@ -563,9 +607,7 @@ export default class Category extends Component {
 //                                         </div>
 //                                     </div>
 //                                 </div>
-//                             </div> */}
-                        
-                        
+//                             </div> */}                        
                         
 //                         </div>
 //                     </div>
@@ -575,11 +617,10 @@ export default class Category extends Component {
 //             </div>    
 //         </div>
 //         <div className="col-4">
-//             <h2 className="text-danger">Your Cart (5)</h2>
+//             {/* <h2 className="text-danger">Your Cart (5)</h2> */}
 //             <ScrollView style={{ height: '70vh' }}>
 //                 <GioHang tangGiamSoLuong={tangGiamSoLuong} gioHang = {state.gioHang} themGioHang = {setStateThemGioHang} xoaSanPham = {setStateXoaSanPham}/>
-//             <div className="row py-2">
-
+//             {/* <div className="row py-2">
 //                 <div className="col-2">
 //                     <img src="./img/blueberry-cupcake.jpeg" style={{width:'4rem', height:'4rem'}}/>
 //                 </div>
@@ -692,7 +733,7 @@ export default class Category extends Component {
 //                         </div>
 //                     </div>
 //                 </div>
-//             </div>
+//             </div> */}
 //             </ScrollView>
 //             <div className="row">
 //                 <div className="col-6">

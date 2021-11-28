@@ -40,12 +40,12 @@ export const AdminTemplate = (props) => {
                     </div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
                         <Menu.Item key="1" icon={<VideoCameraOutlined />} >
-                            <NavLink to="/admin/films">Food management</NavLink>
+                            <NavLink to="/admin/food">Food management</NavLink>
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<UserOutlined />} >
+                        {/* <Menu.Item key="2" icon={<UserOutlined />} >
                             <NavLink to="/admin/users">User management</NavLink>
-                        </Menu.Item>
-                        <Menu.Item key="3" icon={<ArrowLeftOutlined/>} >
+                        </Menu.Item> */}
+                        <Menu.Item key="2" icon={<ArrowLeftOutlined/>} >
                             <NavLink to="/">Back to homepage</NavLink>
                         </Menu.Item>
                     </Menu>

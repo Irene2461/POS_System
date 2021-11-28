@@ -5,7 +5,7 @@
     border: 1px solid orange;
 }
 .ant-layout-content{
-    background-image: url(../../asset/image/bg-app.jpg);
+    /* background-image: url(../../asset/image/bg-app.jpg); */
     background-size: cover;
 }
 .admin-page{
@@ -23,7 +23,7 @@
     height: 650px;
 }
 .form-admin-page h3,.form-admin-page p{
-    color: white;
+    color: black;
     margin-bottom: 10px;
 }
 .page-taoLichChieu .form-admin-page{
