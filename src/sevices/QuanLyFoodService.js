@@ -22,5 +22,6 @@ export class QuanLyFoodService extends baseService {
     xoaFood = (maSP) => {
         return this.delete(`/api/deleteItem?MaSP=${maSP}`);
     }
-
 }
+
+export const quanLyFoodService = new QuanLyFoodService();
