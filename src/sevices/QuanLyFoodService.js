@@ -22,8 +22,8 @@ export class QuanLyFoodService extends baseService {
     xoaFood = (maSP) => {
         return this.delete(`/api/editItem/${maSP}`);
     }
-    capNhatFood2 = (maSP) => {
-        return this.put(`/api/editItem/${maSP}`);
+    capNhatFood2 = (maSP, formData) => {
+        return this.put2(`/api/editItem/${maSP}`,formData);
     }
 }
 

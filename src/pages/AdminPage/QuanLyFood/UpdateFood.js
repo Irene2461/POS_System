@@ -12,12 +12,12 @@ export default function UpdateFood(props) {
     const { thongTinChiTiet } = useSelector(state => state.FoodReducer);
     const [state, setState] = useState({
         values:{
-            maSP: '',
             tenSP: '',
             giaBan: 0,
             hinhAnh: '',
             available: true,
             moTa: '',
+            type: ''
         },
         errors:{
             tenSP: '',
@@ -25,6 +25,7 @@ export default function UpdateFood(props) {
             hinhAnh: '',
             available: '',
             moTa: '',
+            type: ''
         }
         
     });
@@ -66,6 +67,7 @@ export default function UpdateFood(props) {
     
     const handelSubmit = (e) => {
         e.preventDefault();
+        delete state.values['maSP'];
         console.log(state.values);
         let valid = true;
         for (let keyName in state.errors) {
@@ -80,10 +82,9 @@ export default function UpdateFood(props) {
         }
         let formData = new FormData();
         for (let key in state.values){
-            formData.append(key,state.values[key]);
+            formData.append(key, state.values[key]);
         }
-        dispatch(capNhatFoodAction(props.match.params.id));
-        
+        dispatch(capNhatFoodAction(props.match.params.id, formData));
     }
     // gán giá trị state khi click vào thay đổi
     useEffect(() => {
@@ -100,10 +101,6 @@ export default function UpdateFood(props) {
             <div className="row">
                 <div className="col-6">
                     <div className="form-group">
-                        <p>Food code</p>
-                        <input className="form-control" name="maSP" value={state.values.maSP} disabled onChange={handelChange} />
-                    </div>
-                    <div className="form-group">
                         <p>Food name</p>
                         <input className="form-control" name="tenSP" value={state.values.tenSP} onChange={handelChange}/>
                         <p className="text text-warning text-danger">{state.errors?.tenSP}</p>
@@ -113,18 +110,27 @@ export default function UpdateFood(props) {
                         <input className="form-control" name="moTa" value={state.values.moTa} onChange={handelChange} />
                         <p className="text text-warning text-danger">{state.errors?.moTa}</p>
                     </div>
+                    <div className="form-group">
+                        <p>Price</p>
+                        <input className="form-control" name="giaBan" value={state.values.giaBan} onChange={handelChange} />
+                        <p className="text text-warning text-danger">{state.errors?.giaBan}</p>
+                    </div>
                 </div>
                 <div className="col-6">
-                    <div className="form-group">
+                <div className="form-group">
                         <p>Image</p>
-                        <input className="form-control" name="hinhAnh" type="file" style={{ height: '45px' }} onChange={handelChange} />
-                        <p className="text-warning">Current image: {thongTinChiTiet.hinhAnh}</p>
+                        <input className="form-control" name="hinhAnh" value={state.values.hinhAnh} onChange={handelChange} />
                         <p className="text text-warning text-danger">{state.errors?.hinhAnh}</p>
                     </div>
                     <div className="form-group">
                         <p>Availability</p>
                         <input className="form-control" name="available" value={state.values.available} onChange={handelChange} />
                         <p className="text text-warning text-danger">{state.errors?.available}</p>
+                    </div>
+                    <div className="form-group">
+                        <p>Food Type</p>
+                        <input className="form-control" name="type" value={state.values.type} onChange={handelChange} />
+                        <p className="text text-warning text-danger">{state.errors?.type}</p>
                     </div>
                 </div>
             </div>

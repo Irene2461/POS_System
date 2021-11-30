@@ -103,8 +103,6 @@ export const themFoodAction = (formData) =>{
             await dispatch({
                 type:SHOW_MODAL
             })
-            // quay về trang phim
-            history.replace("/admin/films");
             // load lại trang
             dispatch(getApiFoodAction());
         }catch (err){
@@ -128,17 +126,17 @@ export const xoaFoodAction = (maSP) => {
     }
 }
 
-export const capNhatFoodAction = (maSP) => {
+export const capNhatFoodAction = (maSP, formData) => {
     return async dispatch =>{
         try{
-            const result = await quanLyFoodService.capNhatFood2(maSP);
+            const result = await quanLyFoodService.capNhatFood2(maSP, formData);
             await dispatch({
                 type:SHOW_MODAL
             })
             history.replace("/admin/food");
             dispatch(getApiFoodAction());
         }catch (err){
-            alert('errors: ' + err.response?.data);
+            alert('errors: ' + err);
         }
     }
 }

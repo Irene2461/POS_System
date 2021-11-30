@@ -10,60 +10,53 @@ export default function ThemPhim(props) {
     const dispatch = useDispatch();
     const formik = useFormik({
         initialValues:{
-            maSP: 0,
             tenSP:'',
             giaBan: 0,
             moTa:'',
             hinhAnh:'',
             available: true,
+            type: ''
         },
         onSubmit:(values)=>{
             // bien doi JSON thanh form data
             let formData = new FormData();
             for (let key in values){
-                formData.append(key,values[key]);     
+                if (key != 'maSP') formData.append(key,values[key]);     
             }
             dispatch(themFoodAction(formData));
-            
         }
     });
 
-    const changeFile = (e)=>{
-        // lay du lieu duoi dang file
-        let file = e.target.files[0];
-        formik.setFieldValue('hinhAnh',file)
-    }
-    // đổi string qua number
-    const changeMaPhim = (e) => {
-        let {maSP,value} = e.target;
-        formik.setFieldValue('maSP',parseInt(value));
-    }
     return (
         <form id="formAddFilms" className="container form-admin-page" onSubmit={formik.handleSubmit}>
             <h3 className="mb-4">Add Food</h3>
             <div className="row">
                 <div className="col-6">
                     <div className="form-group">
-                        <p>Food code</p>
-                        <input className="form-control" name="maSP" onChange={changeMaPhim} />
-                    </div>
-                    <div className="form-group">
                         <p>Food name</p>
-                        <input className="form-control" name="tenPhim" onChange={formik.handleChange} />
+                        <input className="form-control" name="tenSP" onChange={formik.handleChange} />
                     </div>
                     <div className="form-group">
                         <p>Description</p>
                         <input className="form-control" name="moTa" onChange={formik.handleChange} />
                     </div>
+                    <div className="form-group">
+                        <p>Price</p>
+                        <input className="form-control" name="giaBan" onChange={formik.handleChange} />
+                    </div>
                 </div>
                 <div className="col-6">
                     <div className="form-group">
                         <p>Image</p>
-                        <input className="form-control" name="hinhAnh" type="file" style={{height:'45px'}} onChange={changeFile} />
+                        <input className="form-control" name="hinhAnh" onChange={formik.handleChange} />
                     </div>  
                     <div className="form-group">
                         <p>Availability (true - if available / false - if not)</p>
-                        <input className="form-control" name="availability" onChange={formik.handleChange} />
+                        <input className="form-control" name="availability" type="checkbox" style={{height:'20px'}} onChange={formik.handleChange} />
+                    <div className="form-group">
+                        <p>Type</p>
+                        <input className="form-control" name="type" onChange={formik.handleChange} />
+                    </div>
                     </div>
                 </div>
             </div>
